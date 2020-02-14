@@ -8,20 +8,23 @@ class Busqueda extends React.Component{
 
   constructor(data) {
     super(data);
-    this.state = {mensaje: "Mensaje 1",
-  mensaje2: "x"
+    this.state = {valueInput: ""
   };
   }
 
-  funcion =(data)=>{
-    //console.log(data);
-
-fetch('https://api.mercadolibre.com/sites')
-.then(res => res.json())
-.then((data) => {
-  this.setState({mensaje: data[0].name});
-})
-.catch(console.log)
+  click(evt) {
+    this.setState({
+      valueInput: evt.target.value
+    });
+    fetch('http://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then((data) => {
+     // this.setState({ contacts: data })
+    
+    })
+    .catch(console.log)
+    ReactDOM.render(<Cards name="xx"/>, document.getElementById('cards'));
+    
   }
 
   updateInputValue(evt) {
@@ -36,12 +39,12 @@ render(){
       <div class="container h-100">
       <div class="d-flex justify-content-center h-100">
         <div class="searchbar">
-          <input id="busqueda" class="search_input" value={this.state.mensaje2} type="text" name="" placeholder="Ingrese aqui lo que desea buscar..." onClick={this.funcion} onChange={evt => this.updateInputValue(evt)}    />
+          <input id="busqueda" class="search_input" value={this.state.mensaje2} type="text" name="" placeholder="Ingrese aqui lo que desea buscar..." onClick={evt => this.click(evt)} onChange={evt => this.updateInputValue(evt)}    />
           <a href="#" class="search_icon"><i class  ="fas fa-search"></i></a>
         </div>
       </div>
       <br/>
-      {this.state.mensaje}
+     {this.state.valueInput}
      </div>
     );
 }
@@ -50,17 +53,24 @@ render(){
 ReactDOM.render(<Busqueda/>, document.getElementById('barraBusqueda'));
 
 
-function Cards(data){
+class Cards extends React.Component{
+  constructor(data) {
+    super(data);
+  };
+  
+
+  render(){
     return (  
         <div class="card">
         <div class="card-body">
-          <h5 class="card-title">{data.name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{data.body}</h6>
+          <h5 class="card-title">{this.props.name}</h5>
+          <h6 class="card-subtitle mb-2 text-muted"></h6>
           <p class="card-text">Stay Hungry, Stay Foolish</p>
         </div>
         </div>
         
     );
+  }
 }
 
 
