@@ -6,24 +6,28 @@ import './busqueda.css';
 
 class Busqueda extends React.Component{
 
+  state = {
+    contacts: [],
+    valueInput: ""
+  }
+
   constructor(data) {
-    super(data);
-    this.state = {valueInput: ""
-  };
+    super(data);   
   }
 
   click(evt) {
-    this.setState({
+   /* this.setState({
       valueInput: evt.target.value
-    });
-    fetch('http://jsonplaceholder.typicode.com/users')
+    });*/
+    fetch('https://api.mercadolibre.com/sites/MCO/search?q='+evt.target.value)
     .then(res => res.json())
-    .then((data) => {
-     // this.setState({ contacts: data })
-    
+    .then((data) => {  
+     // console.log("MENSAJE: "+data.results[0].title);
+      ReactDOM.render(<Cards data={data}/>, document.getElementById('cards'));
     })
     .catch(console.log)
-    ReactDOM.render(<Cards name="xx"/>, document.getElementById('cards'));
+
+    
     
   }
 
@@ -44,7 +48,6 @@ render(){
         </div>
       </div>
       <br/>
-     {this.state.valueInput}
      </div>
     );
 }
@@ -53,20 +56,29 @@ render(){
 ReactDOM.render(<Busqueda/>, document.getElementById('barraBusqueda'));
 
 
+
 class Cards extends React.Component{
-  constructor(data) {
-    super(data);
+  constructor(props) {
+    super(props);
+    this.state={
+      productos: this.props.data
+    }
+   
   };
   
 
   render(){
     return (  
-        <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{this.props.name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted"></h6>
+      <div>
+         {this.state.productos.results.map((productos) => (
+        <div class="card">          
+        <div class="card-body">          
+          <h5 class="card-title">{productos.title}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{productos.price}</h6>
           <p class="card-text">Stay Hungry, Stay Foolish</p>
         </div>
+        </div>
+         ))}
         </div>
         
     );
