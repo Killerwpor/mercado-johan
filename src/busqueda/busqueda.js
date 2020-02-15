@@ -21,11 +21,19 @@ class Busqueda extends React.Component{
     });
   }
 
+  handleTest(e) {
+    if (e.charCode == 13) {
+      this.click();
+    }
+  
+  }
+
   click(evt) {
     fetch('https://api.mercadolibre.com/sites/MCO/search?q='+this.state.producto)
     .then(res => res.json())
     .then((data) => {  
-     // console.log("MENSAJE: "+data.results[0].title);
+      ReactDOM.unmountComponentAtNode(document.getElementById('cards'))
+      ReactDOM.unmountComponentAtNode(document.getElementById('root'))
       ReactDOM.render(<Cards data={data} producto={this.state.producto}/>, document.getElementById('cards'));
       ReactDOM.render(<Pagination producto={this.state.producto}/>, document.getElementById('root'));
 
@@ -37,6 +45,7 @@ class Busqueda extends React.Component{
   }
 
  
+ 
 
 
 render(){
@@ -47,7 +56,7 @@ render(){
       <div class="container h-100">
       <div class="d-flex justify-content-center h-100">
         <div class="searchbar">
-          <input id="busqueda" class="search_input" type="text" name="" placeholder="Ingrese aqui lo que desea buscar..."  onChange={evt => this.updateInputValue(evt)}    />
+          <input id="busqueda" class="search_input" type="text" name="" placeholder="Ingrese aqui lo que desea buscar..." onKeyPress={evt => this.handleTest(evt)} onChange={evt => this.updateInputValue(evt)}    />
           <a onClick={evt => this.click()} class="search_icon"><i class  ="fas fa-search"></i></a>
         </div>
       </div>
