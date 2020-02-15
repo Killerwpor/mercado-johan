@@ -8,7 +8,8 @@ class Busqueda extends React.Component{
 
   state = {
     contacts: [],
-    valueInput: ""
+    valueInput: "",
+    producto: ""
   }
 
   constructor(data) {
@@ -16,14 +17,16 @@ class Busqueda extends React.Component{
   }
 
   click(evt) {
-   /* this.setState({
-      valueInput: evt.target.value
-    });*/
+    this.setState({
+      producto: evt.target.value
+    });
     fetch('https://api.mercadolibre.com/sites/MCO/search?q='+evt.target.value)
     .then(res => res.json())
     .then((data) => {  
      // console.log("MENSAJE: "+data.results[0].title);
-      ReactDOM.render(<Cards data={data}/>, document.getElementById('cards'));
+      ReactDOM.render(<Cards data={data} producto={this.state.producto}/>, document.getElementById('cards'));
+      ReactDOM.render(<Pagination producto={this.state.producto}/>, document.getElementById('root'));
+
     })
     .catch(console.log)
 
@@ -61,22 +64,15 @@ class Cards extends React.Component{
   constructor(props) {
     super(props);
     this.state={
-      productos: this.props.data
+      productos: this.props.data,
+      producto: this.props.producto
     }
    
   };
   
 
   render(){
-    //Thumbnail, nombre del producto, precios e ID de seller
-    /*
 
-{productos.title}
-{productos.thumbnail}
-{productos.price}
-Id seller:{productos.seller.id}
-
-    */
     return (  
      
       <div class="container-fluid mb-4">
@@ -114,6 +110,85 @@ Id seller:{productos.seller.id}
               </div> 
               </div>
               </div>
+                  
+                    
+       
+
+        
+    );
+  }
+}
+
+
+class Pagination extends React.Component{
+  constructor(props) {
+    super(props);
+   this.state={
+     producto: this.props.producto,
+   }
+  
+   
+  }
+  
+  contador=0;
+
+  increment = () => {
+    this.contador = this.contador + 50;
+  };
+
+  decrement = () => {
+    this.contador = this.contador - 50;
+  };
+
+  clickAdelante(data) {  
+  
+  this.increment();
+    console.log("MENSAJE "+this.contador)
+     fetch("https://api.mercadolibre.com/sites/MCO/search?q="+data+"&offset="+this.contador)
+    .then(res => res.json())
+    .then((data) => {  
+     ReactDOM.unmountComponentAtNode(document.getElementById('cards'))
+      ReactDOM.render(<Cards data={data} producto={this.props.producto}/>, document.getElementById('cards'));
+    })
+    .catch(console.log)
+     
+   }
+   
+  clickAtras(data) {  
+  
+    this.decrement();
+      console.log("MENSAJE "+this.contador)
+       fetch("https://api.mercadolibre.com/sites/MCO/search?q="+data+"&offset="+this.contador)
+      .then(res => res.json())
+      .then((data) => {  
+       ReactDOM.unmountComponentAtNode(document.getElementById('cards'))
+        ReactDOM.render(<Cards data={data} producto={this.props.producto}/>, document.getElementById('cards'));
+      })
+      .catch(console.log)
+       
+     }
+
+  render(){
+
+    return (  
+     
+      <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" onClick={evt => this.clickAtras(this.state.producto)}aria-label="Previous">
+            <span aria-hidden="true">«</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" onClick={evt => this.clickAdelante(this.state.producto)} aria-label="Next">
+            <span aria-hidden="true">»</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
                            
                     
        
@@ -123,8 +198,6 @@ Id seller:{productos.seller.id}
     );
   }
 }
-
-
 
 
 
