@@ -15,12 +15,14 @@ class Busqueda extends React.Component{
   constructor(data) {
     super(data);   
   }
-
-  click(evt) {
+  updateInputValue(evt) {
     this.setState({
       producto: evt.target.value
     });
-    fetch('https://api.mercadolibre.com/sites/MCO/search?q='+evt.target.value)
+  }
+
+  click(evt) {
+    fetch('https://api.mercadolibre.com/sites/MCO/search?q='+this.state.producto)
     .then(res => res.json())
     .then((data) => {  
      // console.log("MENSAJE: "+data.results[0].title);
@@ -34,23 +36,23 @@ class Busqueda extends React.Component{
     
   }
 
-  updateInputValue(evt) {
-    this.setState({
-      mensaje2: evt.target.value
-    });
-  }
+ 
 
 
 render(){
     return (
+      <div>
+        <div align="center"><h1>Johan Camilo Suárez Lopera</h1></div>
+        <br/>
       <div class="container h-100">
       <div class="d-flex justify-content-center h-100">
         <div class="searchbar">
-          <input id="busqueda" class="search_input" value={this.state.mensaje2} type="text" name="" placeholder="Ingrese aqui lo que desea buscar..." onClick={evt => this.click(evt)} onChange={evt => this.updateInputValue(evt)}    />
-          <a href="#" class="search_icon"><i class  ="fas fa-search"></i></a>
+          <input id="busqueda" class="search_input" type="text" name="" placeholder="Ingrese aqui lo que desea buscar..."  onChange={evt => this.updateInputValue(evt)}    />
+          <a onClick={evt => this.click()} class="search_icon"><i class  ="fas fa-search"></i></a>
         </div>
       </div>
       <br/>
+     </div>
      </div>
     );
 }
@@ -82,7 +84,7 @@ class Cards extends React.Component{
                   <div class="card-body">
                       <div class="row py-3">
                           <div class="col-md-12">
-                              <h4>Related Search Results</h4>
+                              <h4>Resultado:</h4>
                               <div class="divider"></div>
                           </div>
                           
@@ -172,22 +174,22 @@ class Pagination extends React.Component{
 
     return (  
      
-      <nav aria-label="Page navigation example">
-      <ul class="pagination">
+      <div class="block">
+      <ul class="pagination list">
         <li class="page-item">
           <a class="page-link" onClick={evt => this.clickAtras(this.state.producto)}aria-label="Previous">
-            <span aria-hidden="true">«</span>
+            <span aria-hidden="true">«Pagina anterior</span>
             <span class="sr-only">Previous</span>
           </a>
         </li>
         <li class="page-item">
           <a class="page-link" onClick={evt => this.clickAdelante(this.state.producto)} aria-label="Next">
-            <span aria-hidden="true">»</span>
+            <span aria-hidden="true">Proxima pagina»</span>
             <span class="sr-only">Next</span>
           </a>
         </li>
       </ul>
-    </nav>
+      </div>
     
                            
                     

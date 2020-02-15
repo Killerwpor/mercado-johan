@@ -54,4 +54,12 @@
 img {width:50%;}
 
 .pagination>li>a { border-radius: 50% !important;margin: 0 5px;}
+.block{
+    text-align:center;
+    }
+    
+    .list{
+    text-align: left;
+    display:inline-block;
+    }
 
