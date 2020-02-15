@@ -68,18 +68,57 @@ class Cards extends React.Component{
   
 
   render(){
+    //Thumbnail, nombre del producto, precios e ID de seller
+    /*
+
+{productos.title}
+{productos.thumbnail}
+{productos.price}
+Id seller:{productos.seller.id}
+
+    */
     return (  
-      <div>
+     
+      <div class="container-fluid mb-4">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card bg-light">
+                  <div class="card-body">
+                      <div class="row py-3">
+                          <div class="col-md-12">
+                              <h4>Related Search Results</h4>
+                              <div class="divider"></div>
+                          </div>
+                          
+                      </div>
+                      <div class="row">
          {this.state.productos.results.map((productos) => (
-        <div class="card">          
-        <div class="card-body">          
-          <h5 class="card-title">{productos.title}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{productos.price}</h6>
-          <p class="card-text">Stay Hungry, Stay Foolish</p>
-        </div>
-        </div>
+     
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-img"><img src={productos.thumbnail}/></div>
+                                <div class="card-body">
+                                   <h5>{productos.title}</h5>
+                                   <h4 class="pt-1 pb-1">Precio: ${productos.price}</h4>
+                                   <h6 class="pt-1 pb-1">Id seller: {productos.seller.id}</h6>
+                                 
+                                   <a href={productos.permalink} target="_blank"><button type= "button" class="btn btn-outline-danger btn-block btn-sm">Comprar</button></a>
+                                </div>
+                            </div>
+                        </div>
+                      
          ))}
-        </div>
+           </div>
+              </div>
+              </div>
+              </div> 
+              </div>
+              </div>
+                           
+                    
+       
+
+
         
     );
   }
